@@ -78,11 +78,14 @@ A full-stack **MERN Stack Expense Tracker** that helps users manage their income
 # 📁 Project Structure
 
 ```text
+# 📁 Project Structure
 Expense-Tracker
 │
 ├── client
+│   ├── public
 │   ├── src
 │   │   ├── api
+│   │   │   └── api.js
 │   │   ├── components
 │   │   │   ├── AddExpense.jsx
 │   │   │   ├── ExpenseChart.jsx
@@ -95,19 +98,21 @@ Expense-Tracker
 │   │   ├── App.jsx
 │   │   ├── index.css
 │   │   └── main.jsx
-│   ├── public
 │   └── package.json
 │
 ├── server
 │   ├── config
 │   │   └── db.js
 │   ├── controllers
+│   │   ├── authController.js
 │   │   └── expenseController.js
 │   ├── middleware
 │   │   └── authMiddleware.js
 │   ├── models
-│   │   └── Expense.js
+│   │   ├── Expense.js
+│   │   └── User.js
 │   ├── routes
+│   │   ├── authRoutes.js
 │   │   └── expenseRoutes.js
 │   ├── screenshots
 │   │   ├── login.png
@@ -115,6 +120,7 @@ Expense-Tracker
 │   │   ├── Dashboard1.png
 │   │   └── Dashboard2.png
 │   ├── tests
+│   ├── .env.example
 │   ├── app.js
 │   ├── server.js
 │   └── package.json
@@ -122,8 +128,6 @@ Expense-Tracker
 ├── .gitignore
 └── README.md
 ```
-
----
 
 # 📸 Screenshots
 
