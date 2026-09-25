@@ -127,7 +127,6 @@ Expense-Tracker
 ├── .gitignore
 └── README.md
 
----
 # 📸 Screenshots
 
 ## 🔐 Login
