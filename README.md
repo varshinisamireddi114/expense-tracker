@@ -77,7 +77,7 @@ A full-stack **MERN Stack Expense Tracker** that helps users manage their income
 
 # 📁 Project Structure
 
-text
+```text
 Expense-Tracker
 │
 ├── client
@@ -126,6 +126,8 @@ Expense-Tracker
 │
 ├── .gitignore
 └── README.md
+```
+---
 
 # 📸 Screenshots
 
