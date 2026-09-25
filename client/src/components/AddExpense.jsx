@@ -10,22 +10,34 @@ function AddExpense({ refresh }) {
         type: "Expense"
     });
 
-
     const handleChange = (e) => {
         setExpense({
             ...expense,
-            [e.target.name]: e.target.value
+            [e.target.name]:
+                e.target.name === "amount"
+                    ? Number(e.target.value)
+                    : e.target.value
         });
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         console.log("Form data:", expense);
 
-        if (!expense.title || !expense.amount || !expense.category) {
+        // Check required fields
+        if (
+            !expense.title.trim() ||
+            !expense.amount ||
+            !expense.category.trim()
+        ) {
             alert("Please fill all fields");
+            return;
+        }
+
+        // Check amount
+        if (expense.amount <= 0) {
+            alert("Amount must be greater than 0");
             return;
         }
 
@@ -43,15 +55,14 @@ function AddExpense({ refresh }) {
                 }
             );
 
-
             console.log(response.data);
 
             alert("Added successfully");
 
-
+            // Refresh expense list
             refresh();
 
-
+            // Clear form
             setExpense({
                 title: "",
                 amount: "",
@@ -59,25 +70,25 @@ function AddExpense({ refresh }) {
                 type: "Expense"
             });
 
-
         } catch (error) {
 
-            console.log(error.response?.data || error.message);
+            console.log(
+                error.response?.data || error.message
+            );
 
-            alert("Failed to add expense");
-
+            alert(
+                error.response?.data?.message ||
+                "Failed to add expense"
+            );
         }
     };
-
 
     return (
         <div>
 
             <h3>Add Income / Expense</h3>
 
-
             <form onSubmit={handleSubmit}>
-
 
                 <input
                     name="title"
@@ -85,7 +96,6 @@ function AddExpense({ refresh }) {
                     value={expense.title}
                     onChange={handleChange}
                 />
-
 
                 <input
                     name="amount"
@@ -95,7 +105,6 @@ function AddExpense({ refresh }) {
                     onChange={handleChange}
                 />
 
-
                 <input
                     name="category"
                     placeholder="Category"
@@ -103,13 +112,11 @@ function AddExpense({ refresh }) {
                     onChange={handleChange}
                 />
 
-
                 <select
                     name="type"
                     value={expense.type}
                     onChange={handleChange}
                 >
-
                     <option value="Expense">
                         Expense
                     </option>
@@ -117,17 +124,13 @@ function AddExpense({ refresh }) {
                     <option value="Income">
                         Income
                     </option>
-
                 </select>
-
 
                 <button type="submit">
                     Add
                 </button>
 
-
             </form>
-
 
         </div>
     );

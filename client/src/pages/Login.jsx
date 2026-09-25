@@ -1,152 +1,360 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../api/api";
 
-
 function Login() {
-
-
     const navigate = useNavigate();
 
-
     const [formData, setFormData] = useState({
-
         email: "",
         password: ""
-
     });
 
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     const handleChange = (e) => {
-
         setFormData({
-
             ...formData,
-
             [e.target.name]: e.target.value
-
         });
 
+        setError("");
     };
 
-
-
-
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
+        setError("");
+
+        if (!formData.email.trim() || !formData.password) {
+            setError("Please enter your email and password.");
+            return;
+        }
 
         try {
-
+            setLoading(true);
 
             const response = await API.post(
                 "/auth/login",
                 formData
             );
 
-
-
             localStorage.setItem(
                 "token",
                 response.data.token
             );
-
-
 
             localStorage.setItem(
                 "user",
                 JSON.stringify(response.data.user)
             );
 
-
-
-            alert("Login successful");
-
-
-
             navigate("/dashboard");
 
-
-
         } catch (error) {
-
-
-            alert(
-                error.response?.data?.message || 
-                "Login failed"
+            setError(
+                error.response?.data?.message ||
+                "Login failed. Please check your credentials."
             );
-
-
+        } finally {
+            setLoading(false);
         }
-
     };
 
-
-
     return (
+        <div className="min-h-screen w-full bg-slate-950 flex">
 
-        <div>
+            {/* Left Side */}
 
+            <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-blue-700 via-indigo-700 to-violet-800 text-white">
 
-            <h2>
-                Login
-            </h2>
+                {/* Decorative circles */}
 
+                <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/10" />
 
+                <div className="absolute bottom-[-180px] right-[-100px] w-[500px] h-[500px] rounded-full bg-white/10" />
 
-            <form onSubmit={handleSubmit}>
+                <div className="relative z-10 flex flex-col justify-between w-full p-16">
 
+                    {/* Logo */}
 
-                <input
+                    <div className="flex items-center gap-3">
 
-                    type="email"
+                        <div className="w-12 h-12 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center text-2xl font-bold backdrop-blur-sm">
+                            ₹
+                        </div>
 
-                    name="email"
+                        <span className="text-2xl font-bold tracking-tight">
+                            ExpenseFlow
+                        </span>
 
-                    placeholder="Email"
-
-                    value={formData.email}
-
-                    onChange={handleChange}
-
-                />
-
-
-
-                <input
-
-                    type="password"
-
-                    name="password"
-
-                    placeholder="Password"
-
-                    value={formData.password}
-
-                    onChange={handleChange}
-
-                />
+                    </div>
 
 
+                    {/* Main Content */}
 
-                <button type="submit">
+                    <div className="max-w-xl">
 
-                    Login
+                        <p className="uppercase tracking-[0.25em] text-sm text-blue-200 font-semibold mb-5">
+                            Personal Finance
+                        </p>
 
-                </button>
+                        <h1 className="text-5xl xl:text-6xl font-bold leading-tight">
+                            Make every
+                            <br />
+                            rupee count.
+                        </h1>
+
+                        <p className="mt-6 text-lg text-blue-100 leading-relaxed max-w-lg">
+                            A simple and powerful way to track your
+                            income, manage expenses, and understand
+                            where your money goes.
+                        </p>
 
 
+                        {/* Feature items */}
 
-            </form>
+                        <div className="mt-10 space-y-5">
 
+                            <div className="flex items-center gap-4">
+
+                                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                                    ✓
+                                </div>
+
+                                <div>
+                                    <p className="font-semibold">
+                                        Track your spending
+                                    </p>
+
+                                    <p className="text-sm text-blue-200">
+                                        Keep every transaction organized.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div className="flex items-center gap-4">
+
+                                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                                    ✓
+                                </div>
+
+                                <div>
+                                    <p className="font-semibold">
+                                        Understand your finances
+                                    </p>
+
+                                    <p className="text-sm text-blue-200">
+                                        Get a clear view of your financial activity.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div className="flex items-center gap-4">
+
+                                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                                    ✓
+                                </div>
+
+                                <div>
+                                    <p className="font-semibold">
+                                        Stay in control
+                                    </p>
+
+                                    <p className="text-sm text-blue-200">
+                                        Make informed decisions with your data.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* Footer */}
+
+                    <p className="text-sm text-blue-200">
+                        © 2026 ExpenseFlow
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {/* Right Side */}
+
+            <div className="w-full lg:w-1/2 min-h-screen bg-white flex items-center justify-center px-6 sm:px-12 lg:px-20 xl:px-28">
+
+                <div className="w-full max-w-lg">
+
+                    {/* Mobile Logo */}
+
+                    <div className="lg:hidden flex items-center gap-3 mb-12">
+
+                        <div className="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xl">
+                            ₹
+                        </div>
+
+                        <span className="text-xl font-bold text-slate-900">
+                            ExpenseFlow
+                        </span>
+
+                    </div>
+
+
+                    {/* Heading */}
+
+                    <div className="mb-10">
+
+                        <p className="text-sm font-bold tracking-wider text-blue-600 mb-3">
+                            WELCOME BACK
+                        </p>
+
+                        <h2 className="text-4xl font-bold text-slate-900">
+                            Sign in
+                        </h2>
+
+                        <p className="mt-3 text-slate-500">
+                            Welcome back. Please enter your details.
+                        </p>
+
+                    </div>
+
+
+                    {/* Error */}
+
+                    {error && (
+
+                        <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                            {error}
+                        </div>
+
+                    )}
+
+
+                    <form
+                        onSubmit={handleSubmit}
+                        className="space-y-6"
+                    >
+
+                        {/* Email */}
+
+                        <div>
+
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                Email address
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                autoComplete="email"
+                                className="w-full h-14 rounded-xl border border-slate-200 bg-slate-50 px-4 text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                            />
+
+                        </div>
+
+
+                        {/* Password */}
+
+                        <div>
+
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                Password
+                            </label>
+
+                            <div className="relative">
+
+                                <input
+                                    type={
+                                        showPassword
+                                            ? "text"
+                                            : "password"
+                                    }
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    autoComplete="current-password"
+                                    className="w-full h-14 rounded-xl border border-slate-200 bg-slate-50 px-4 pr-20 text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500 hover:text-blue-600"
+                                >
+                                    {showPassword
+                                        ? "Hide"
+                                        : "Show"}
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        {/* Button */}
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full h-14 rounded-xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                            {loading
+                                ? "Signing in..."
+                                : "Sign in"}
+                        </button>
+
+                    </form>
+
+
+                    {/* Register */}
+
+                    <div className="mt-8 text-center">
+
+                        <p className="text-sm text-slate-500">
+
+                            Don't have an account?{" "}
+
+                            <Link
+                                to="/register"
+                                className="font-semibold text-blue-600 hover:text-blue-700"
+                            >
+                                Create an account
+                            </Link>
+
+                        </p>
+
+                    </div>
+
+
+                    {/* Bottom */}
+
+                    <p className="mt-12 text-center text-xs text-slate-400">
+                        Your financial data is securely managed within your account.
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
-
     );
-
 }
-
 
 export default Login;

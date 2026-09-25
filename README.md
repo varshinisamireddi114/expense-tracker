@@ -1,6 +1,6 @@
 # 💰 Expense Tracker
 
-A full-stack **MERN Stack Expense Tracker** that enables users to securely manage their income and expenses with JWT-based authentication. The application allows users to add, edit, delete, and categorize transactions while providing real-time financial insights through interactive charts.
+A full-stack **MERN Stack Expense Tracker** that helps users manage their income and expenses with JWT-based authentication. The application supports adding, editing, deleting, searching, and filtering transactions while providing financial insights through an interactive dashboard and charts.
 
 ---
 
@@ -8,34 +8,40 @@ A full-stack **MERN Stack Expense Tracker** that enables users to securely manag
 
 ### 🔐 Authentication
 
-- User Registration
-- Secure Login
-- JWT Authentication
-- Protected Routes
-- Password Hashing using bcrypt
+* User Registration
+* Secure Login
+* JWT-based Authentication
+* Protected Dashboard Routes
+* Password Hashing using bcrypt
 
-### 💳 Expense Management
+### 💳 Income & Expense Management
 
-- Add Income & Expenses
-- Edit Transactions
-- Delete Transactions
-- Category-based Expense Tracking
-- User-specific Data Storage
+* Add Income and Expenses
+* Edit Transactions
+* Delete Transactions
+* Category-based Transaction Tracking
+* User-specific Transaction Storage
+* Input Validation
+* Ownership-based Access Control
 
 ### 📊 Dashboard
 
-- Total Income
-- Total Expense
-- Current Balance
-- Interactive Expense Charts
-- Recent Transactions Overview
+* Current Balance
+* Total Income
+* Total Expense
+* Net Savings
+* Interactive Expense Analytics
+* Income vs Expense Comparison
+* Recent Transactions
+* Quick Action for Adding Transactions
 
 ### 🔎 Search & Filter
 
-- Search Transactions
-- Filter by Income
-- Filter by Expense
-- Filter by Category
+* Search Transactions by Title or Category
+* Filter by Income
+* Filter by Expense
+* Filter by Category
+* Reset Filters
 
 ---
 
@@ -43,20 +49,29 @@ A full-stack **MERN Stack Expense Tracker** that enables users to securely manag
 
 ## Frontend
 
-- React.js
-- React Router DOM
-- Tailwind CSS
-- Axios
-- Recharts
+* React.js
+* React Router DOM
+* Tailwind CSS
+* Axios
+* Recharts
+* Vite
 
 ## Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- bcrypt
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT Authentication
+* bcrypt
+* CORS
+* dotenv
+
+## Testing
+
+* Jest
+* Supertest
+* MongoDB Memory Server
 
 ---
 
@@ -68,24 +83,39 @@ Expense-Tracker
 ├── client
 │   ├── src
 │   │   ├── api
-│   │   ├── assets
 │   │   ├── components
-│   │   ├── context
+│   │   │   ├── AddExpense.jsx
+│   │   │   ├── ExpenseChart.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── ProtectedRoute.jsx
 │   │   ├── pages
-│   │   ├── utils
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
 │   │   ├── App.jsx
+│   │   ├── index.css
 │   │   └── main.jsx
 │   ├── public
 │   └── package.json
 │
 ├── server
 │   ├── config
+│   │   └── db.js
 │   ├── controllers
+│   │   └── expenseController.js
 │   ├── middleware
+│   │   └── authMiddleware.js
 │   ├── models
+│   │   └── Expense.js
 │   ├── routes
+│   │   └── expenseRoutes.js
 │   ├── screenshots
-│   ├── utils
+│   │   ├── login.png
+│   │   ├── register.png
+│   │   ├── Dashboard1.png
+│   │   └── Dashboard2.png
+│   ├── tests
+│   ├── app.js
 │   ├── server.js
 │   └── package.json
 │
@@ -97,47 +127,47 @@ Expense-Tracker
 
 # 📸 Screenshots
 
+## 🔐 Login
+
+![Login](./server/screenshots/login.png)
+
+---
+
+## 📝 Register
+
+![Register](./server/screenshots/register.png)
+
+---
+
 ## 🏠 Dashboard
 
-![Dashboard](./server/screenshots/Expenses.png)
+![Dashboard](./server/screenshots/Dashboard1.png)
 
 ---
 
-## ➕ Add Expense
+## 📊 Dashboard Analytics & Transactions
 
-![Add Expense](./server/screenshots/Addexpenses.png)
-
----
-
-## ✏️ Edit Expense
-
-![Edit Expense](./server/screenshots/Editexpenses.png)
-
----
-
-## 📊 Expense Analytics
-
-![Charts](./server/screenshots/charts.png)
+![Dashboard Analytics](./server/screenshots/Dashboard2.png)
 
 ---
 
 # ⚙️ Installation & Setup
 
-## Backend
+## 1. Backend Setup
 
-Navigate to the server directory.
+Navigate to the server directory:
 
 ```bash
 cd server
 ```
 
-Install dependencies.
+Install the dependencies:
 
 ```bash
 npm install
 ```
 
-Create a `.env` file inside the `server` folder.
+Create a `.env` file inside the `server` folder:
 
 ```env
 PORT=5000
@@ -145,45 +175,57 @@ MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
 
-Start the backend server.
+Start the backend server:
 
 ```bash
 npm run dev
 ```
 
+The backend will run on:
+
+```text
+http://localhost:5000
+```
+
 ---
 
-## Frontend
+## 2. Frontend Setup
 
-Open another terminal and navigate to the client directory.
+Open another terminal and navigate to the client directory:
 
 ```bash
 cd client
 ```
 
-Install dependencies.
+Install the dependencies:
 
 ```bash
 npm install
 ```
 
-Start the development server.
+Start the frontend development server:
 
 ```bash
 npm run dev
+```
+
+The frontend will run on:
+
+```text
+http://localhost:5173
 ```
 
 ---
 
 # 🌐 Local URLs
 
-Frontend
+### Frontend
 
 ```text
 http://localhost:5173
 ```
 
-Backend
+### Backend
 
 ```text
 http://localhost:5000
@@ -195,31 +237,69 @@ http://localhost:5000
 
 ## Authentication
 
-| Method | Endpoint |
-|--------|----------|
-| POST | `/api/auth/register` |
-| POST | `/api/auth/login` |
+| Method | Endpoint             | Description         |
+| ------ | -------------------- | ------------------- |
+| POST   | `/api/auth/register` | Register a new user |
+| POST   | `/api/auth/login`    | Login user          |
 
 ## Expenses
 
-| Method | Endpoint |
-|--------|----------|
-| GET | `/api/expenses` |
-| POST | `/api/expenses` |
-| PUT | `/api/expenses/:id` |
-| DELETE | `/api/expenses/:id` |
+| Method | Endpoint            | Description                           |
+| ------ | ------------------- | ------------------------------------- |
+| GET    | `/api/expenses`     | Get authenticated user's transactions |
+| POST   | `/api/expenses`     | Add a transaction                     |
+| PUT    | `/api/expenses/:id` | Update a transaction                  |
+| DELETE | `/api/expenses/:id` | Delete a transaction                  |
+
+All expense endpoints require JWT authentication.
+
+---
+
+# 🧪 Testing
+
+The backend includes automated tests using **Jest, Supertest, and MongoDB Memory Server**.
+
+Run the tests from the `server` directory:
+
+```bash
+npm test
+```
+
+The test suite covers:
+
+* Authentication middleware
+* Token validation
+* Adding transactions
+* Retrieving user-specific transactions
+* Updating transactions
+* Deleting transactions
+* Ownership protection
+
+---
+
+# 🔒 Security
+
+The application includes:
+
+* JWT-based authentication
+* bcrypt password hashing
+* Protected API routes
+* User-specific transaction access
+* Ownership checks for update and delete operations
+* Environment variables for sensitive configuration
+* Input validation for transaction data
 
 ---
 
 # 🔮 Future Enhancements
 
-- Export Expense Reports as PDF
-- CSV Export
-- Monthly Budget Planning
-- Dark Mode
-- Mobile Responsive UI
-- Advanced Analytics
-- Cloud Deployment
+* Export Expense Reports as PDF
+* CSV Export
+* Monthly Budget Planning
+* Dark Mode
+* Mobile Responsive Improvements
+* Advanced Financial Analytics
+* Cloud Deployment
 
 ---
 
@@ -227,9 +307,9 @@ http://localhost:5000
 
 **Varshini Samireddi**
 
-- GitHub: https://github.com/varshinisamireddi114
-- LinkedIn: https://www.linkedin.com/in/varshini-samireddi-21623832a
-- Email: varshinisamireddi@gmail.com
+* GitHub: https://github.com/varshinisamireddi114
+* LinkedIn: https://www.linkedin.com/in/varshini-samireddi-21623832a
+* Email: [varshinisamireddi@gmail.com](mailto:varshinisamireddi@gmail.com)
 
 ---
 
